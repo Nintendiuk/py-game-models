@@ -8,13 +8,12 @@ def main() -> None:
         players = json.load(f)
 
     for nickname, data in players.items():
-        race_data = data["race"]
         race, _ = Race.objects.get_or_create(
-            name=race_data["name"],
-            defaults={"description": race_data.get("description", "")}
+            name=data["race"]["name"],
+            defaults={"description": data["race"].get("description", "")}
         )
 
-        for skill_data in race_data.get("skills", []):
+        for skill_data in data["race"].get("skills", []):
             Skill.objects.get_or_create(
                 name=skill_data["name"],
                 race=race,
